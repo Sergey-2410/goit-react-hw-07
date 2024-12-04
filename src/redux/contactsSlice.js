@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchContacts } from './contactsOps';
 
 const initialState = {
   contacts: {
     items: [],
+    loading: false,
+    error: null,
   },
 };
 
@@ -18,6 +21,11 @@ const slice = createSlice({
         contact => contact.id !== action.payload
       );
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchContacts.fulfilled, (state, action) => {
+      state.contacts.items = action.payload;
+    });
   },
 });
 
